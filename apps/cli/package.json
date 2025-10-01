@@ -1,0 +1,71 @@
+{
+  "name": "@bus402/x402-sandbox",
+  "version": "0.2.8",
+  "description": "Local development environment for x402 payment protocol",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "x402-sandbox": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && node scripts/add-shebang.cjs",
+    "dev": "tsx src/index.ts",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "x402",
+    "http-402",
+    "payment",
+    "micropayments",
+    "sandbox",
+    "development",
+    "testing",
+    "ethereum",
+    "eip-3009"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bus402/x402-sandbox.git"
+  },
+  "homepage": "https://github.com/bus402/x402-sandbox#readme",
+  "dependencies": {
+    "@viem/anvil": "^0.0.10",
+    "body-parser": "^1.20.2",
+    "cli-spinners": "^3.3.0",
+    "colors": "^1.4.0",
+    "commander": "^11.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.9.0",
+    "express": "^4.18.2",
+    "fs-extra": "^11.2.0",
+    "prompts": "^2.4.2",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^20.10.0",
+    "tsup": "^8.5.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

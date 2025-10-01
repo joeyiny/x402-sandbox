@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022"],
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@x402-sandbox/types": ["packages/types/src/index"],
+      "@x402-sandbox/types/*": ["packages/types/src/*"],
+      "@x402-sandbox/facilitator": ["packages/facilitator/src/index"],
+      "@x402-sandbox/facilitator/*": ["packages/facilitator/src/*"],
+      "@x402-sandbox/x402-server": ["packages/x402-server/src/index"],
+      "@x402-sandbox/x402-server/*": ["packages/x402-server/src/*"],
+      "@x402-sandbox/cli": ["apps/cli/src/index"],
+      "@x402-sandbox/cli/*": ["apps/cli/src/*"]
+    }
+  }
+}

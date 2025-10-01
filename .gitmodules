@@ -1,0 +1,3 @@
+[submodule "packages/eip3009-token/lib/openzeppelin-contracts"]
+	path = packages/eip3009-token/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# Don't commit the large binary files
+# Uncomment when developing
+# bin/
