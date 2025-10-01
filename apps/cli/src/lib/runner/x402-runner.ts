@@ -290,7 +290,8 @@ export class X402Runner {
     // Handle graceful shutdown
     process.on("SIGINT", async () => {
       console.log("\n");
-      const stopSpinner = ora("Shutting down services...").start();
+      const shutdownSpinner = new Spinner();
+      shutdownSpinner.start("Shutting down services...");
       try {
         if (this.server) {
           await this.server.stop();
@@ -298,9 +299,9 @@ export class X402Runner {
         if (this.nodeManager) {
           await this.nodeManager.stopNode();
         }
-        stopSpinner.succeed("All services stopped");
+        shutdownSpinner.succeed("All services stopped");
       } catch (error) {
-        stopSpinner.fail("Error during shutdown");
+        shutdownSpinner.fail("Error during shutdown");
         console.error(error);
       }
       process.exit(0);
