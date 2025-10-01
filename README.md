@@ -59,6 +59,10 @@ Options:
   -c, --config <path>  Path to config file
 ```
 
+<p align="center">
+  <img src="./docs/x402-start.gif" alt="Start Demo" width="550">
+</p>
+
 This command will:
 
 1. Start a local Anvil node (or connect to external)
@@ -86,6 +90,10 @@ Optional:
   -e, --endpoint <path>            Specific endpoint to test
   -a, --amount <units>             Payment amount in atomic units
 ```
+
+<p align="center">
+  <img src="./docs/x402-curl.gif" alt="Curl Demo" width="550">
+</p>
 
 ## Sample Endpoints
 
