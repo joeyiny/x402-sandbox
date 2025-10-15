@@ -1,7 +1,7 @@
 // Default ports
 export const DEFAULT_PORTS = {
   rpc: 8545,
-  facilitator: 3001,
+  facilitator: 3005,
   server: 3002,
 } as const;
 

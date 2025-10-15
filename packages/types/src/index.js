@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEFAULT_TOKEN_CONFIG = exports.DEFAULT_MNEMONIC = exports.DEFAULT_FACILITATOR_PRIVATE_KEY = exports.DEFAULT_TEST_ACCOUNTS = exports.DEFAULT_CDP_FACILITATOR_URL = exports.DEFAULT_LOCAL_FACILITATOR_URL = exports.DEFAULT_PORTS = void 0;
 // Default ports
 exports.DEFAULT_PORTS = {
-    rpc: 8545,
-    facilitator: 3001,
-    server: 3002
+  rpc: 8545,
+  facilitator: 3005,
+  server: 3002,
 };
 // Default facilitator URLs
 exports.DEFAULT_LOCAL_FACILITATOR_URL = `http://localhost:${exports.DEFAULT_PORTS.facilitator}`;

@@ -1,21 +1,11 @@
-import colors from "colors";
-import fs from "fs-extra";
-import path from "path";
-import { ethers } from "ethers";
-import type { Server } from "http";
 import { Facilitator } from "@x402-sandbox/facilitator";
-import { startX402Server } from "@x402-sandbox/x402-server";
-import {
-  DEFAULT_TEST_ACCOUNTS,
-  DEFAULT_PORTS,
-  SandboxConfig,
-  DEFAULT_TOKEN_CONFIG,
-} from "@x402-sandbox/types";
-import {
-  NodeManager,
-  deployEIP3009Token,
-  mintTokensToAccounts,
-} from "../blockchain";
+import { DEFAULT_PORTS, DEFAULT_TEST_ACCOUNTS, DEFAULT_TOKEN_CONFIG, SandboxConfig } from "@x402-sandbox/types";
+import colors from "colors";
+import { ethers } from "ethers";
+import fs from "fs-extra";
+import type { Server } from "http";
+import path from "path";
+import { NodeManager, deployEIP3009Token, mintTokensToAccounts } from "../blockchain";
 import { createInteractiveConfig } from "../config";
 
 // Simple spinner implementation
@@ -110,9 +100,7 @@ export class X402Runner {
           name: this.config.token.name ?? DEFAULT_TOKEN_CONFIG.name,
           symbol: this.config.token.symbol ?? DEFAULT_TOKEN_CONFIG.symbol,
           decimals: this.config.token.decimals ?? DEFAULT_TOKEN_CONFIG.decimals,
-          initialSupply:
-            this.config.token.initialSupply ??
-            DEFAULT_TOKEN_CONFIG.initialSupply,
+          initialSupply: this.config.token.initialSupply ?? DEFAULT_TOKEN_CONFIG.initialSupply,
         }
       : DEFAULT_TOKEN_CONFIG;
 
@@ -140,12 +128,8 @@ export class X402Runner {
     paymentAddress: string
   ): void {
     const isLocal = this.config.node?.type === "local";
-    const rpcUrl = isLocal
-      ? "http://127.0.0.1:8545"
-      : this.config.node?.url ?? "";
-    const facilitatorPort =
-      this.config.facilitator?.port ?? DEFAULT_PORTS.facilitator;
-    const serverPort = this.config.server?.port ?? DEFAULT_PORTS.server;
+    const rpcUrl = isLocal ? "http://127.0.0.1:8545" : this.config.node?.url ?? "";
+    const facilitatorPort = this.config.facilitator?.port ?? DEFAULT_PORTS.facilitator;
 
     console.log(colors.green("\n✅ X402 Sandbox is running!\n"));
     console.log(colors.cyan.bold("Configuration:"));
@@ -153,31 +137,21 @@ export class X402Runner {
 
     console.log(colors.yellow("Node:"));
     console.log(`  • RPC: ${colors.white(rpcUrl)}`);
-    console.log(
-      `  • Type: ${colors.white(isLocal ? "Local Anvil" : "External")}`
-    );
+    console.log(`  • Type: ${colors.white(isLocal ? "Local Anvil" : "External")}`);
 
     console.log(colors.yellow("\nFacilitator:"));
-    console.log(
-      `  • URL: ${colors.white(`http://localhost:${facilitatorPort}`)}`
-    );
+    console.log(`  • URL: ${colors.white(`http://localhost:${facilitatorPort}`)}`);
     console.log(`  • Address (gas payer): ${colors.white(facilitatorAddress)}`);
     if (isLocal) {
       console.log(`  • Private Key: ${colors.gray(facilitatorKey)}`);
     }
-
-    console.log(colors.yellow("\nX402 Server:"));
-    console.log(`  • URL: ${colors.white(`http://localhost:${serverPort}`)}`);
-    console.log(`  • Payment Address (receiver): ${colors.white(paymentAddress)}`);
 
     console.log(colors.yellow("\nToken:"));
     console.log(`  • Address: ${colors.white(tokenAddress)}`);
     console.log(`  • Symbol: USDC`);
 
     if (isLocal) {
-      console.log(
-        colors.yellow("\nTest Accounts (1000 ETH, 10,000 USDC each):")
-      );
+      console.log(colors.yellow("\nTest Accounts (1000 ETH, 10,000 USDC each):"));
       DEFAULT_TEST_ACCOUNTS.forEach((acc, i) => {
         console.log(`  ${i + 1}. ${acc.address}`);
         if (i === 0) {
@@ -188,32 +162,12 @@ export class X402Runner {
 
     console.log(colors.gray("─".repeat(50)));
 
-    // Payment command examples
-    console.log(colors.cyan("\n💳 Generate payment commands:"));
-    console.log(
-      colors.white(
-        `  x402-sandbox curl -p ${paymentAddress} -t ${tokenAddress}`
-      )
-    );
-    console.log(colors.gray("  # Generate curl commands with valid payments\n"));
-
-    console.log(colors.cyan("📝 Test endpoints:"));
-    console.log(colors.white(`  curl http://localhost:${serverPort}/health`));
-    console.log(colors.gray("  # Free endpoint\n"));
-
-    console.log(
-      colors.white(`  curl http://localhost:${serverPort}/api/data`)
-    );
-    console.log(colors.gray("  # Returns 402 - requires payment (0.1 USDC)\n"));
-
     console.log(colors.gray("Press Ctrl+C to stop all services\n"));
   }
 
   async start(): Promise<void> {
     const isLocal = this.config.node?.type === "local";
-    const rpcUrl = isLocal
-      ? "http://127.0.0.1:8545"
-      : this.config.node?.url ?? "http://127.0.0.1:8545";
+    const rpcUrl = isLocal ? "http://127.0.0.1:8545" : this.config.node?.url ?? "http://127.0.0.1:8545";
 
     // Start local node if needed
     if (isLocal) {
@@ -221,9 +175,7 @@ export class X402Runner {
       this.spinner.start("Starting Anvil node...");
       const isInstalled = await this.nodeManager.checkInstallation();
       if (!isInstalled) {
-        this.spinner.info(
-          "Anvil not found. @viem/anvil will download it automatically"
-        );
+        this.spinner.info("Anvil not found. @viem/anvil will download it automatically");
       }
       await this.nodeManager.startNode({ port: 8545 });
       this.spinner.succeed("Anvil node started on port 8545");
@@ -233,8 +185,7 @@ export class X402Runner {
     const facilitatorKey = this.generateFacilitatorKey();
     const facilitatorWallet = new ethers.Wallet(facilitatorKey);
     const facilitatorAddress = facilitatorWallet.address;
-    const facilitatorPort =
-      this.config.facilitator?.port ?? DEFAULT_PORTS.facilitator;
+    const facilitatorPort = this.config.facilitator?.port ?? DEFAULT_PORTS.facilitator;
 
     // Generate payment receiver address (different from facilitator)
     const paymentWallet = ethers.Wallet.createRandom();
@@ -257,9 +208,7 @@ export class X402Runner {
     }
 
     // Deploy/setup token
-    const tokenAddress = await this.setupToken(
-      facilitatorWallet.connect(provider)
-    );
+    const tokenAddress = await this.setupToken(facilitatorWallet.connect(provider));
 
     // Start facilitator
     this.spinner.start("Starting X402 Facilitator...");
@@ -272,17 +221,6 @@ export class X402Runner {
 
     await this.facilitator.start();
     this.spinner.succeed(`Facilitator started on port ${facilitatorPort}`);
-
-    // Start X402 server
-    this.spinner.start("Starting X402 Server...");
-    const serverPort = this.config.server?.port ?? DEFAULT_PORTS.server;
-    this.server = await startX402Server({
-      port: serverPort,
-      facilitatorUrl: `http://localhost:${facilitatorPort}`,
-      paymentAddress: paymentAddress,
-      tokenAddress: tokenAddress,
-    });
-    this.spinner.succeed(`X402 Server started on port ${serverPort}`);
 
     // Display summary
     this.displaySummary(facilitatorKey, facilitatorAddress, tokenAddress, paymentAddress);

@@ -1,4 +1,4 @@
-# @bus402/x402-sandbox
+# forked from @bus402/x402-sandbox
 
 > **One command to spin up a complete x402 payment server locally**
 
@@ -119,7 +119,7 @@ You can provide a custom configuration file:
     "decimals": 6
   },
   "facilitator": {
-    "port": 3001
+    "port": 3005
   },
   "server": {
     "port": 3002
